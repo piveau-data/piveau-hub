@@ -4,6 +4,9 @@
 
 piveau hub is an Open Data registry based on Semantic Web technologies    
 
+![Screenshot](https://raw.githubusercontent.com/piveau-data/piveau-hub/master/material/piveau-ui.png)
+
+
 ## Installation
 
 ### Prerequisites
