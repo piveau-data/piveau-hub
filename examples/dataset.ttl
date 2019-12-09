@@ -1,0 +1,115 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix locn: <http://www.w3.org/ns/locn#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix time: <http://www.w3.org/2006/time> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix edp: <https://europeandataportal.eu/voc#>
+
+<https://example.eu/set/data/test-dataset>
+    a dcat:Dataset ;
+    dct:title "Example Dataset 2"@en ;
+    dct:title "Beispieldatensatz"@de-t-en-t0-mtec ;
+    dct:language  <http://publications.europa.eu/resource/authority/language/ENG> ;
+    dct:description "This is an example Dataset" ;
+    dct:description "Dies ist ein Beispieldatensatz"@de-t-en-t0-mtec ;
+    dcat:theme <http://publications.europa.eu/resource/authority/data-theme/ENVI> ;
+    dcat:theme <http://publications.europa.eu/resource/authority/data-theme/AGRO> ;
+    dct:issued "2015-08-28T00:00:00"^^xsd:dateTime ;
+    dct:modified "2018-04-03T13:48:21.950626"^^xsd:dateTime ;
+    dct:accessRights ":public" ;
+    dcat:landingPage <http://landingpage.de> ;
+    dct:spatial [
+        a dct:Location ;
+        locn:geometry "<gml:Envelope srsName=\"http://www.opengis.net/def/EPSG/0/4326\"><gml:lowerCorner>53.1485 12.915</gml:lowerCorner><gml:upperCorner>53.1985 12.9983</gml:upperCorner></gml:Envelope>"^^<http://www.opengis.net/ont/geosparql#gmlLiteral>
+    ] ;
+    dct:temporal [ 
+        a dct:PeriodOfTime ;
+        schema:endDate "2015-06-09T00:00:00"^^xsd:dateTime ;
+        schema:startDate "2015-06-09T00:00:00"^^xsd:dateTime 
+    ] ;
+    dcat:contactPoint  [
+        a vcard:Kind ;
+        vcard:hasEmail  <mailto:john@doe.de> ;
+        vcard:fn   "John Doe"
+    ] ;
+    dcat:contactPoint <https://example.de/def/contact/fokus> ;
+    dct:publisher <http://publications.europa.eu/resource/authority/corporate-body/COUN_COOP_EU_SYR> ;
+    dcat:keyword
+        "piveau",
+        "test",
+        "open data",
+        "umwelt" ;
+
+    dct:conformsTo "Conforms To String" ;
+    dct:conformsTo [
+        rdfs:label "Conforms To"
+    ] ;
+    dct:conformsTo <http://conforms.to/conformation> ;
+    dct:conformsTo <https://example.de/def/conformsto> ;
+    dct:provenance [
+        a dct:ProvenanceStatement ;
+        rdfs:label  "This is a provenance statement"@en
+    ] ;
+    foaf:page <http://www.documentation.com> ;
+
+    dcat:distribution <https://example.eu/dataset/1f7fc0a8-a4a6-40f6-aea8-f77f581fafc4/resource/1>, <https://example.eu/dataset/1f7fc0a8-a4a6-40f6-aea8-f77f581fafc4/resource/2>, <https://example.eu/dataset/1f7fc0a8-a4a6-40f6-aea8-f77f581fafc4/resource/3>  .
+
+
+<https://example.eu/dataset/1f7fc0a8-a4a6-40f6-aea8-f77f581fafc4/resource/1>
+    a dcat:Distribution ;
+    dcat:accessURL <http://daten.transparenz.hamburg.de/Dataport.HmbTG.ZS.Webservice.GetRessource100/GetRessource100.svc/4fbc1cdb-7d27-4f45-ba6a-95b94fa63832/Sediment.csv> ;
+    dcat:downloadURL <http://download.de>, <http://upload.com> ;
+    dcat:mediaType "text/plain" ;
+    dct:format <https://example.com/def/format/PDF>  ;
+    dct:license "CC BY-SA 4.0" ;
+    dct:title "Example Distribution 1" ;
+    dct:description "This is a example Distribution 2" .
+
+<https://example.eu/dataset/1f7fc0a8-a4a6-40f6-aea8-f77f581fafc4/resource/2>
+    a dcat:Distribution ;
+    dcat:accessURL <http://daten.transparenz.hamburg.de/Dataport.HmbTG.ZS.Webservice.GetRessource100/GetRessource100.svc/4fbc1cdb-7d27-4f45-ba6a-95b94fa63832/Sediment.csv> ;
+    dct:format <https://example.de/def/format/CSV> ;
+    dct:license [
+        dc:identifier "test-licence" ;
+        skos:altLabel "Test Licence" ;
+        skos:prefLabel "This is a Open Test Licence" ;
+        skos:exactMatch <http://testlicence.org>
+
+    ];
+    dcat:mediaType <http://www.iana.org/assignments/media-types/text/csv> ;
+    dct:title "Example Distribution 2" ;
+    dct:description "This is a example Distribution 2" .
+
+<https://example.eu/dataset/1f7fc0a8-a4a6-40f6-aea8-f77f581fafc4/resource/3>
+    a dcat:Distribution ;
+    dcat:accessURL <http://hallo.csv> ;
+    dct:format <http://publications.europa.eu/resource/authority/file-type/XLS> ;
+    dct:license <https://creativecommons.org/licenses/by/4.0/>  ;
+    dct:title "Example Distribution 3" ;
+    dct:description "This is a example Distribution 3" .
+
+<https://example.de/def/format/CSV>
+    a dct:MediaTypeOrExtent ;
+    rdfs:label "CSV" .
+  
+<https://example.de/def/publisher/fokus>
+	a foaf:Organization ;
+    foaf:homepage  "http://www.fokus.fraunhofer.de" ;
+    foaf:name      "Fraunhofer FOKUS" .
+
+<https://example.de/def/contact/fokus>
+    a vcard:Individual ;
+    vcard:hasEmail  <mailto:max@mustermann.de> ;
+    vcard:fn "Max Mustermann" .
+
+<https://example.de/def/conformsto>
+    skos:prefLabel "Conforms To 2" .

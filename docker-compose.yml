@@ -1,0 +1,91 @@
+version: '3.0'
+
+services:
+  piveau-hub-search:
+    build: ../piveau-hub-search
+    container_name: piveau-hub-search
+    logging:
+      options:
+        max-size: "50m"
+    ports:
+      - 8081:8080
+      - 8082:8081
+    depends_on:
+      - elasticsearch
+    environment:
+      - VIADUCT_HUB_SEARCH_API_KEY=myapikey
+      - VIADUCT_HUB_SEARCH_ES_CONFIG={"host":"elasticsearch","port":9200}
+      - VIADUCT_HUB_SEARCH_GAZETTEER_CONFIG={"url":"http://doesnotmatter.eu"}
+
+  piveau-hub-datastore:
+    build: ../piveau-hub-datastore
+    container_name: piveau-hub-datastore
+    logging:
+      options:
+        max-size: "50m"
+    ports:
+      - 8086:8080
+    environment:
+      - MONGO_DB_URI=mongodb://datastore-mongo:27017
+      - MONGO_DB=fileuploaderdb
+      - HTTP_PORT=8080
+      - API_KEY=Bearer myapikey
+    depends_on:
+      - datastore-mongo
+    links:
+      - datastore-mongo
+
+  piveau-hub-registry:
+    build: ../piveau-hub-registry
+    container_name: piveau-hub-registry
+    logging:
+      options:
+        max-size: "50m"
+    ports:
+      - 8080:8080
+      - 8085:8085
+    environment:
+      - PIVEAU_HUB_SERVICE_PORT=8080
+      - PIVEAU_HUB_BASE_URI=https://piveau.eu/
+      - PIVEAU_HUB_TRIPLESTORE_CONFIG={"host":"http://piveau-virtuoso","port":8890,"data_endpoint":"/sparql-graph-crud-auth","query_endpoint":"/sparql-auth","ping":"","user":"dba","password":"dba"}
+      - PIVEAU_HUB_VALIDATOR={"enabled":false,"url":"http://validator:8080"}
+      - PIVEAU_HUB_SEARCH_SERVICE={"url":"piveau-hub-search","port":8080,"api_key":"myapikey"}
+      - PIVEAU_TRANSLATION_SERVICE={"enable":false,"accepted_languages":["en","bg","hr","cs","da","nl","et","fi","fr","el","hu","ga","it","lv","lt","mt","pl","pt","ro","sk","sl","es","sv","nb","de"],"translation_service_url":"http://odp-lic.prod-aws.europeandataportal.eu:8080/translation-service/","callback_url":"http://odp-ckan01.prod-aws.europeandataportal.eu:8080/translation"}
+      - PIVEAU_HUB_API_KEY=myapikey
+      - PIVEAU_DATA_UPLOAD={"url":"http://localhost:8086","service_url":"http://piveau-hub-datastore:8080","api_key":"Bearer myapikey"}
+      - PIVEAU_HUB_ELASTICSEARCH_ADDRESS=http://piveau-hub-search:9200
+
+  datastore-mongo:
+    image: mongo:4.0.6
+    logging:
+      options:
+        max-size: "50m"
+    container_name: datastore-mongo
+    ports:
+      - 8087:27017
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.1.0
+    logging:
+      options:
+        max-size: "50m"
+    environment:
+      - bootstrap.memory_lock=true
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - 9200:9200
+      - 9300:9300
+
+  piveau-virtuoso:
+    image: piveau/piveau-virtuoso
+    container_name: piveau-virtuoso
+    logging:
+      options:
+        max-size: "50m"
+    ports:
+      - 8890:8890
+      - 1111:1111
