@@ -55,6 +55,14 @@ services:
       - PIVEAU_DATA_UPLOAD={"url":"http://localhost:8086","service_url":"http://piveau-hub-datastore:8080","api_key":"Bearer myapikey"}
       - PIVEAU_HUB_ELASTICSEARCH_ADDRESS=http://piveau-hub-search:9200
 
+  piveau-hub-ui:
+    build: ../piveau-hub-ui
+    container_name: piveau-hub-ui
+    ports:
+      - 8084:8080
+    environment:
+      - VUE_APP_TITLE=Piveau
+
   datastore-mongo:
     image: mongo:4.0.6
     logging:

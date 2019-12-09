@@ -59,6 +59,10 @@ $ docker-compose up --build
 - Registry endpoint: `http://localhost:8080`
 
 ### Create Test Data
+- Test data can be found in "examples"
+- Set the corrects headers when executing the HTTP request
+- `Authorization:myapikey` `Content-Type:text/turtle` 
+
 ```
 PUT localhost:8080/catalogues/catalog-1
 ```
